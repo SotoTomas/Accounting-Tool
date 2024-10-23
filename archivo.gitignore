@@ -1,0 +1,22 @@
+# Ignorar archivos de configuración sensibles
+.env
+config.php
+
+# Ignorar dependencias
+/vendor/
+/node_modules/
+
+# Ignorar archivos de log
+*.log
+
+# Ignorar archivos de compilación
+/build/
+/dist/
+
+# Ignorar configuraciones de IDE
+.idea/
+.vscode/
+
+# Ignorar archivos temporales
+*.tmp
+*.bak
