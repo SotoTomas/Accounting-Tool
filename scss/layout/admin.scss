@@ -1,0 +1,51 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex; /* Utiliza flexbox para organizar la barra lateral y el contenido */
+    font-family:sans-serif;
+}
+h1{
+    text-align: center;
+}
+
+.sidebar {
+    width: 40rem; /* Ancho de la barra lateral */
+    background-color: #333; /* Color de fondo */
+    color: #fff; /* Color del texto */
+    height: 100vh
+}
+
+.sidebar h2 {
+    margin-bottom: 20px; /* Espacio debajo del encabezado */
+}
+
+.sidebar ul {
+    list-style-type: none; /* Sin viñetas */
+}
+
+
+.sidebar li{
+    text-align: center;
+}
+
+
+.sidebar ul li a {
+    color: #fff; /* Color de los enlaces */
+    text-decoration: none; /* Sin subrayado */
+    display: block; /* Hace que el enlace ocupe toda la línea */
+    padding: 10px; /* Espaciado interno para los enlaces */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+.sidebar ul li a:hover {
+    background-color: #575757; /* Color de fondo al pasar el ratón */
+}
+
+.content {
+    flex: 1; /* Toma el resto del espacio disponible */
+    padding: 20px; /* Espaciado interno del contenido */
+}
