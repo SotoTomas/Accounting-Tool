@@ -24,6 +24,8 @@
     "sass": "^1.79.4"
   },
   "dependencies": {
+    "@firebasegen/default-connector": "file:dataconnect-generated/js/default-connector",
+    "firebase": "^11.0.1",
     "normalize.css": "^8.0.1"
   }
 }

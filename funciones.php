@@ -16,10 +16,3 @@ function autenticado() : bool{
         return false;
 }
 
-function ivaOperacion($number){
-    $iva  = $number * 1.21;
-
-    return  $iva;
-}
-
-echo ivaOperacion(243);

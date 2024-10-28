@@ -1,65 +1,102 @@
-<?php
-require 'includes/app.php';
+<?php 
+include '../includes/app.php';
+$db= conectarDB();
+$auth = autenticado();
 
-$errores= [];
+if(!$auth){
+    header('Location: ../');
+}
+if($_SERVER[  'REQUEST_METHOD' ] == 'POST'){
+     $id = $_POST['id_venta'];    
 
-if($_SERVER ["REQUEST_METHOD"] == "POST"){
-
-    $user = filter_var($_POST["user"],  FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $password = $_POST ["password"];
-
-    if(!$user || !$password){
-         $errores[] = "Debes llenar todos los campos"; 
-    }  
-
-    if(empty ($errores)){
-        $query = "SELECT  * FROM usuarios WHERE user = '$user'";
-        $stmt = $db->prepare($query);
-        $stmt ->execute();
-
-        if($stmt->rowCount() > 0) {
-            $user =  $stmt->fetch();
-
-            $auth = password_verify($password,  $user['password']);
-
-            if($auth){ 
-                session_start();
-                $_SESSION['user'] = $user['user'];
-                $_SESSION['login']  = true;
-                header('Location: /admin');
-            }else{
-                $errores[] = "Contraseña incorrecta";
+     
+     function eliminar(){
+         
+         $db  = conectarDB();
+         $id = $_POST['id_venta'];
+         if($id){
+             $sql = "DELETE FROM ventas WHERE id_venta = '$id'";
+             
+             $resultado = $db->query($sql);
+             if($resultado){
+                 header(  'Location: /admin' );
+                }else{
+                    echo "Error al eliminar venta";
+                }
             }
-        }else{
-            $errores[] = "El usuario no existe";
         }
+        eliminar();
     }
+
+function getInfo(){
+    $db= conectarDB();
+
+    $query = "SELECT ventas.*, productos.prod_nombre AS venta_producto 
+              FROM ventas 
+              JOIN productos ON ventas.venta_producto = productos.id_producto";
+
+    $stmt=  $db->prepare($query);
+    $stmt->execute();
+    $resultados  = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    return $resultados; // Devuelve los resultados
+}
+
+$resultados = getInfo(); // Llama a la función y guarda los resultados
+$cantidadResultados = count($resultados);
+$gananciaBrutaTotal = 0; // Inicializa la variable para la ganancia total
+
+
+foreach ($resultados as $resultado) {
+    $gananciaBrutaTotal += $resultado['venta_total']; // Suma el total de cada venta
 }
 ?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="build/css/app.css">
-    <title>libroContable</title>
+    <link rel="stylesheet" href="/build/css/app.css"> 
+    <title>panel de administración</title>
 </head>
 <body>
-        <div class="contenedor">
-            <?php foreach  ($errores as $error): ?>
-                <div class="alerta error">
-                    <?php  echo $error; ?>
-                </div>
- 
-            <?php endforeach; ?>
-            <form method="POST" class="login">
-                <label for="user">Usuario:</label>
-                <input class="input" name="user"  required type="text" id="user" placeholder="Ingrese aquí su usuario">
-    
-                <label for="pass">Contraseña:</label>
-                <input class="input" name="password" required type="password" id="pass" placeholder="Ingrese aquí su contraseña">
-                <button class="boton-login" type="submit">Iniciar Sesión</button>
-            </form>
+    <div class="sidebar">
+        <h1> Panel de administración</h1>
+        <ul>
+            <li class="seccion"><a href="#">Ventas</a></li>
+            <li><a href="/admin/nuevaVenta.php">Nueva Venta</a></li>
+        </ul>
+    </div>
+
+    <main class="content">
+        <h1>Ventas</h1>
+        <div class='total'>
+            <p class="info">Información General</p>
+            <p class='ventas-totales'>Hay un total de <?php echo $cantidadResultados; ?> ventas</p>  
+            <p>Ganancia Bruta: $<?php echo $gananciaBrutaTotal; ?></p>
         </div>
+        <div class='total-ventas'>
+            <?php foreach ($resultados as $resultado): ?>
+                <div class='venta'>
+                    <form class="close-form" method= "POST">
+                        <input type="hidden" name="id_venta" value="<?php echo $resultado['id_venta']; ?>">
+                        <input type="submit" name="id" value=" Eliminar">
+                    </form>
+
+                    <p>ID: <?php echo $resultado['id_venta']; ?></p>
+                    <p>Comprador: <?php echo $resultado['venta_nombre_comprador']; ?></p> 
+                    <p>Producto: <?php echo $resultado['venta_producto']; ?></p> 
+                    <p>Precio Bruto Individual: $650</p> 
+                    <p>Cantidad: <?php echo $resultado['venta_cantidad']; ?></p> 
+                    <p>Metodo de Pago: <?php echo $resultado['venta_met_pago']; ?></p> 
+                    <p>IVA: $<?php echo $resultado['venta_iva']; ?></p> 
+                    <p>Total: $<?php echo $resultado['venta_total']; ?></p> 
+                </div>  
+            <?php endforeach; ?>
+        </div>
+    </main>
+
+    <script src="/build/js/bundle.js"></script>
 </body>
 </html>

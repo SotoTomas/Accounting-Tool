@@ -1,0 +1,118 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family:sans-serif;
+}
+h1{
+    text-align: center;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    width: 40rem; /* Ancho de la barra lateral */
+    background-color: #333; /* Color de fondo */
+    color: #fff; /* Color del texto */
+    height: 100vh;
+}
+
+.sidebar h2 {
+    margin-bottom: 20px; /* Espacio debajo del encabezado */
+}
+
+.sidebar ul {
+    list-style-type: none; /* Sin viñetas */
+}
+
+
+.sidebar li{
+    text-align: center;
+}
+
+
+.sidebar ul li a {
+    color: #fff; /* Color de los enlaces */
+    text-decoration: none; /* Sin subrayado */
+    display: block; /* Hace que el enlace ocupe toda la línea */
+    padding: 10px; /* Espaciado interno para los enlaces */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+.sidebar ul li a:hover {
+    background-color: #575757; /* Color de fondo al pasar el ratón */
+}
+
+.content {
+    margin-left: 40rem; /* Espacio 
+
+    padding: 20px /* Espaciado interno del contenido */
+}
+.info{
+    background-color: #333;
+    color: white;
+}
+.total{
+    p{
+    padding-left: 1rem;
+    }
+    background-color: rgb(236, 207, 170);
+    width: auto;
+    margin: 2rem;
+    border: 1px solid #000000;
+}
+.total-ventas{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    place-items: center;
+    width: auto;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.venta{ 
+    width: 40rem;
+    height: auto;
+    background-color: #6868685b;
+    border-radius: .5rem;
+    padding: 1rem;
+    margin: 1rem;
+    box-shadow: 0 0 0.5rem 0.5rem rgba(0, 0, 0, 0.446);
+p{
+    background-color: white;
+    color: rgb(28, 28, 69);;
+    border-radius: .5rem;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    &:last-child{
+        margin-bottom: 0;
+    }
+}
+
+    }
+h2{
+    text-align: left;
+    display: block;
+}
+label{
+    font-weight: 700;
+
+}
+.close-form{
+    display: flex;
+    justify-content: right;
+    input{
+        background-color: rgb(101, 0, 0);
+        color: white;
+        border-radius: .5rem;
+        width: 10rem;
+        padding: 0;
+        margin-bottom: 1rem;
+        cursor: pointer;
+    }
+}
+
+
